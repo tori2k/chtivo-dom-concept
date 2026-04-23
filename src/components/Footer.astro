@@ -1,0 +1,106 @@
+---
+---
+<footer class="footer">
+  <div class="container-x">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="footer__mark">◣</span>
+        <span class="footer__word">ЧТИВО<span class="footer__dom">ДОМ</span></span>
+        <span class="footer__sub">Культурное пространство · Москва</span>
+      </div>
+      <nav class="footer__nav">
+        <a href="#plan">План Дома</a>
+        <a href="#afisha">Афиша</a>
+        <a href="#kitchen">Кухня</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© {new Date().getFullYear()} ЧТИВО · Зубовский бульвар, 2 · 16+</span>
+      <span class="footer__note">Концепт · независимая работа Кирилла Барыева, не&nbsp;заказ ЧТИВО</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-text);
+    color: var(--color-bg);
+    padding: 80px 0 28px;
+  }
+  .footer__top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(242,237,225,0.15);
+  }
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer__mark {
+    color: var(--color-brand);
+    font-size: 22px;
+    line-height: 1;
+  }
+  .footer__word {
+    font-family: var(--font-display);
+    font-size: 48px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--color-bg);
+    text-transform: uppercase;
+  }
+  .footer__dom {
+    color: var(--color-brand);
+    margin-left: 6px;
+  }
+  .footer__sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(242,237,225,0.6);
+  }
+
+  .footer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .footer__nav a {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--color-bg);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    transition: color 0.25s;
+    width: fit-content;
+  }
+  .footer__nav a:hover { color: var(--color-brand); }
+
+  .footer__bottom {
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(242,237,225,0.5);
+  }
+  .footer__note {
+    color: var(--color-brand);
+  }
+
+  @media (max-width: 700px) {
+    .footer__top { grid-template-columns: 1fr; gap: 36px; padding-bottom: 36px; }
+    .footer { padding: 60px 0 24px; }
+  }
+</style>

@@ -1,0 +1,252 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+<section class="hero" id="top">
+  <!-- Diagonal split background -->
+  <div class="hero__split" aria-hidden="true">
+    <div class="hero__split-cream"></div>
+    <div class="hero__split-red"></div>
+  </div>
+
+  <div class="container-x hero__inner">
+    <div class="hero__meta">
+      <span class="hero__meta-status">
+        <span class="hero__status-dot"></span>
+        ОТКРЫТО · 09:00 — 22:00
+      </span>
+      <span class="hero__meta-addr">ЗУБОВСКИЙ БУЛЬВАР, 2</span>
+    </div>
+
+    <h1 class="hero__title">
+      <span class="hero__word hero__word--chtivo">ЧТИВО</span>
+      <span class="hero__word hero__word--dom">ДОМ</span>
+    </h1>
+
+    <div class="hero__bottom">
+      <p class="hero__lead">
+        Культурное пространство в&nbsp;центре Москвы, где мы&nbsp;встречаемся, общаемся,
+        читаем, смотрим кино, слушаем живые выступления, едим, пьем и&nbsp;рассказываем истории.
+      </p>
+
+      <div class="hero__actions">
+        <span class="magnet">
+          <a href="#afisha" class="btn btn--brand">
+            Афиша
+            <span class="btn__arrow">→</span>
+          </a>
+        </span>
+        <a href="https://t.me/chtivo_dom_bot" target="_blank" rel="noopener" class="hero__chat">
+          <span>Чат ДОМА в Telegram</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero photo floating -->
+  <div class="hero__photo" data-parallax="0.05" aria-hidden="true">
+    <img src={`${base}/media/hero-interior.jpg`} alt="Интерьер Чтиво Дома" loading="eager" fetchpriority="high" />
+  </div>
+
+  <!-- Marquee -->
+  <div class="hero__marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Кино</span><span class="dot">·</span>
+      <span>Литература</span><span class="dot">·</span>
+      <span>Кухня</span><span class="dot">·</span>
+      <span>Лекции</span><span class="dot">·</span>
+      <span>Живая музыка</span><span class="dot">·</span>
+      <span>Встречи</span><span class="dot">·</span>
+      <!-- dup -->
+      <span>Кино</span><span class="dot">·</span>
+      <span>Литература</span><span class="dot">·</span>
+      <span>Кухня</span><span class="dot">·</span>
+      <span>Лекции</span><span class="dot">·</span>
+      <span>Живая музыка</span><span class="dot">·</span>
+      <span>Встречи</span><span class="dot">·</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: 100px 0 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__split {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero__split-cream {
+    position: absolute;
+    inset: 0;
+    background: var(--color-bg);
+    clip-path: polygon(0 0, 100% 0, 42% 100%, 0 100%);
+  }
+  .hero__split-red {
+    position: absolute;
+    inset: 0;
+    background: var(--color-brand);
+    clip-path: polygon(100% 0, 100% 100%, 42% 100%, 58% 0);
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    flex: 1;
+    padding-top: 40px;
+    padding-bottom: 80px;
+  }
+
+  .hero__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--color-text);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .hero__meta-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero__status-dot {
+    width: 8px; height: 8px;
+    background: var(--color-brand);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(80px, 18vw, 280px);
+    line-height: 0.82;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    margin: 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+  }
+  .hero__word { display: block; }
+  .hero__word--dom {
+    color: var(--color-text);
+    text-align: right;
+    margin-top: -0.08em;
+  }
+
+  .hero__bottom {
+    display: grid;
+    grid-template-columns: 1.2fr auto;
+    gap: 40px;
+    align-items: end;
+    margin-top: auto;
+    padding-top: 80px;
+  }
+  .hero__lead {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.55;
+    color: var(--color-text-soft);
+    max-width: 560px;
+    margin: 0;
+  }
+  .hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-self: end;
+  }
+  .hero__chat {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    color: var(--color-text);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.25s;
+  }
+  .hero__chat svg { transition: transform 0.3s; }
+  .hero__chat:hover { color: var(--color-brand); }
+  .hero__chat:hover svg { transform: translate(2px, -2px); }
+
+  /* Floating photo on the red side */
+  .hero__photo {
+    position: absolute;
+    top: 18%;
+    right: 5%;
+    width: 22vw;
+    min-width: 260px;
+    max-width: 380px;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    z-index: 2;
+    box-shadow: 0 40px 90px rgba(20,18,16,0.35);
+  }
+  .hero__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Marquee */
+  .hero__marquee {
+    overflow: hidden;
+    padding: 20px 0;
+    border-top: 1.5px solid var(--color-text);
+    border-bottom: 1.5px solid var(--color-text);
+    position: relative;
+    z-index: 3;
+    background: var(--color-bg);
+  }
+  .marquee-track {
+    display: inline-flex;
+    gap: 32px;
+    white-space: nowrap;
+    animation: marquee 45s linear infinite;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 60px);
+    color: var(--color-text);
+    text-transform: uppercase;
+  }
+  .marquee-track .dot { color: var(--color-brand); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 1000px) {
+    .hero__photo { width: 30vw; top: auto; bottom: 30%; right: 4%; }
+  }
+  @media (max-width: 700px) {
+    .hero__split-cream { clip-path: polygon(0 0, 100% 0, 100% 60%, 0 80%); }
+    .hero__split-red { clip-path: polygon(0 80%, 100% 60%, 100% 100%, 0 100%); }
+    .hero__photo { display: none; }
+    .hero__bottom { grid-template-columns: 1fr; }
+    .hero__actions { justify-self: start; }
+    .marquee-track { animation-duration: 65s; font-size: 28px; gap: 24px; }
+  }
+</style>

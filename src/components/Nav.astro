@@ -1,0 +1,226 @@
+---
+const items = [
+  { href: '#plan', label: 'План Дома', num: '/' },
+  { href: '#afisha', label: 'Афиша', num: '/I' },
+  { href: '#kitchen', label: 'Кухня', num: '/II' },
+  { href: '#contact', label: 'Контакты', num: '/III' },
+];
+---
+<nav class="nav">
+  <div class="container-x nav__inner">
+    <a href="#top" class="nav__logo" aria-label="На главную">
+      <span class="nav__mark">◣</span>
+      <span class="nav__name">ЧТИВО<span class="nav__dom">ДОМ</span></span>
+    </a>
+
+    <ul class="nav__links">
+      {items.map((i) => (
+        <li>
+          <a href={i.href}>
+            <span class="nav__num">{i.num}</span>
+            <span class="nav__label">{i.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="nav__right">
+      <a href="https://t.me/chtivo_dom_bot" target="_blank" rel="noopener" class="nav__cta">Чат ДОМА</a>
+    </div>
+
+    <button class="nav__burger" id="navBurger" aria-label="Меню">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <div class="nav__mobile" id="navMobile">
+    {items.map((i) => (
+      <a href={i.href}>
+        <span class="nav__m-num">{i.num}</span>
+        {i.label}
+      </a>
+    ))}
+    <a href="https://t.me/chtivo_dom_bot" target="_blank" rel="noopener" class="nav__cta nav__cta--mobile">Чат ДОМА →</a>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    backdrop-filter: blur(14px) saturate(1.1);
+    background: rgba(242,237,225,0.82);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .nav.open {
+    z-index: 100;
+    background: var(--color-bg);
+    backdrop-filter: none;
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    gap: 32px;
+  }
+  .nav__logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .nav__mark {
+    color: var(--color-brand);
+    font-size: 22px;
+    line-height: 1;
+  }
+  .nav__dom {
+    color: var(--color-brand);
+    margin-left: 4px;
+  }
+
+  .nav__links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav__links a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: var(--color-text);
+    text-transform: uppercase;
+    transition: color 0.25s;
+    position: relative;
+  }
+  .nav__num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-brand);
+    font-weight: 700;
+  }
+  .nav__links a::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 100%;
+    bottom: -6px;
+    height: 1.5px;
+    background: var(--color-brand);
+    transition: right 0.35s cubic-bezier(.22,1,.36,1);
+  }
+  .nav__links a:hover { color: var(--color-brand); }
+  .nav__links a:hover::after { right: 0; }
+
+  .nav__cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 22px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--color-brand);
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.25s;
+  }
+  .nav__cta:hover { background: var(--color-brand-dark); }
+
+  .nav__burger {
+    display: none;
+    position: relative;
+    width: 38px; height: 38px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .nav__burger span {
+    position: absolute;
+    left: 8px;
+    width: 22px; height: 1.5px;
+    background: var(--color-text);
+    transition: transform 0.3s cubic-bezier(.22,1,.36,1), top 0.3s, opacity 0.2s;
+  }
+  .nav__burger span:nth-child(1) { top: 15px; }
+  .nav__burger span:nth-child(2) { top: 22px; }
+  .nav.open .nav__burger span:nth-child(1) { top: 18.5px; transform: rotate(45deg); }
+  .nav.open .nav__burger span:nth-child(2) { top: 18.5px; transform: rotate(-45deg); }
+
+  .nav__mobile {
+    position: fixed;
+    top: 72px; left: 0; right: 0;
+    bottom: 0;
+    background: var(--color-bg);
+    flex-direction: column;
+    padding: 32px 28px;
+    gap: 0;
+    display: none;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  .nav__mobile.open { display: flex; }
+  .nav__mobile a {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-border);
+    text-transform: uppercase;
+  }
+  .nav__m-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-brand);
+    font-weight: 700;
+    width: 40px;
+  }
+  .nav__cta--mobile {
+    margin-top: 24px;
+    justify-content: center;
+    padding: 18px 0;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    border-bottom: none !important;
+  }
+
+  @media (max-width: 1000px) {
+    .nav__links, .nav__right { display: none; }
+    .nav__burger { display: flex; }
+  }
+</style>
+
+<script>
+  const burger = document.getElementById('navBurger');
+  const mobile = document.getElementById('navMobile');
+  const nav = document.querySelector('.nav');
+  burger?.addEventListener('click', () => {
+    mobile?.classList.toggle('open');
+    nav?.classList.toggle('open');
+  });
+  mobile?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
+    mobile.classList.remove('open');
+    nav?.classList.remove('open');
+  }));
+</script>

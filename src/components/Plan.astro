@@ -1,0 +1,158 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const rooms = [
+  {
+    num: '/',
+    slug: 'kitchen',
+    name: 'Кухня',
+    sub: 'кафе',
+    desc: 'Наши друзья из&nbsp;пока небольшого, но&nbsp;амбициозного проекта, прославившиеся на&nbsp;всю Москву полукилограммовыми сэндвичами с&nbsp;мортаделлой, на&nbsp;кухне ЧТИВО ДОМА готовят завтраки, обеды и&nbsp;ужины.',
+    photo: 'cafe-bar.jpg',
+  },
+  {
+    num: '/I',
+    slug: 'living-room',
+    name: 'Гостиная',
+    sub: 'кино · лекторий',
+    desc: 'Вместе с&nbsp;«Москино» мы&nbsp;отреставрировали уютный зал на&nbsp;90&nbsp;мест. В&nbsp;репертуаре — проверенная киноклассика и&nbsp;солидные премьеры.',
+    photo: 'hall-wide.jpg',
+  },
+  {
+    num: '/II',
+    slug: 'cabinet',
+    name: 'Кабинет',
+    sub: 'коворкинг · музыка',
+    desc: 'Днём здесь можно поработать за&nbsp;чашкой кофе, а&nbsp;вечером послушать музыку или поучаствовать в&nbsp;обсуждении книг.',
+    photo: 'hall-2.jpg',
+  },
+  {
+    num: '/III',
+    slug: 'library',
+    name: 'Библиотека',
+    sub: 'читальный зал',
+    desc: 'Читальный зал с&nbsp;регулярно обновляемой коллекцией книг, которые хочется обсуждать, перечитывать и&nbsp;советовать друг другу.',
+    photo: 'hall-3.jpg',
+  },
+];
+---
+<section class="plan" id="plan">
+  <div class="container-x">
+    <div class="plan__head reveal">
+      <div class="sec-tag">План Дома</div>
+      <h2 class="display-h plan__title">
+        Четыре комнаты<br/>
+        под&nbsp;<em>одной крышей</em>
+      </h2>
+      <p class="plan__lead">
+        Раньше в&nbsp;каждом районе Москвы был Дом культуры, где показывали кино, читали лекции, обсуждали книги, устраивали встречи с&nbsp;интересными людьми — в&nbsp;общем, как могли, обогащали «досуг москвичей и&nbsp;гостей столицы». Этим&nbsp;же занимается ЧТИВО с&nbsp;момента создания.
+      </p>
+    </div>
+
+    <div class="plan__grid">
+      {rooms.map((r, i) => (
+        <article class="room reveal" style={`transition-delay: ${i * 0.08}s`}>
+          <div class="room__head">
+            <span class="room__num">{r.num}</span>
+            <span class="room__sub">{r.sub}</span>
+          </div>
+          <div class="room__media">
+            <img src={`${base}/media/${r.photo}`} alt={r.name} loading="lazy" decoding="async" />
+          </div>
+          <h3 class="room__name">{r.name}</h3>
+          <p class="room__desc" set:html={r.desc}></p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .plan { padding: 140px 0 160px; }
+  .plan__head {
+    max-width: 960px;
+    margin-bottom: 80px;
+  }
+  .plan__title {
+    margin: 0 0 32px;
+  }
+  .plan__lead {
+    font-family: var(--font-sans);
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.6;
+    color: var(--color-text-soft);
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .plan__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .room {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .room__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .room__num {
+    font-family: var(--font-mono);
+    font-size: clamp(20px, 1.8vw, 26px);
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+  .room__sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--color-muted);
+    text-transform: uppercase;
+  }
+
+  .room__media {
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+  .room__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s cubic-bezier(.22,1,.36,1);
+  }
+  .room:hover .room__media img { transform: scale(1.04); }
+
+  .room__name {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 3vw, 44px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+    margin: 0;
+    color: var(--color-text);
+    text-transform: uppercase;
+  }
+  .room__desc {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  @media (max-width: 1000px) {
+    .plan__grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+  @media (max-width: 600px) {
+    .plan { padding: 80px 0 100px; }
+    .plan__grid { grid-template-columns: 1fr; }
+  }
+</style>

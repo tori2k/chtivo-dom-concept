@@ -1,0 +1,267 @@
+---
+const events = [
+  { date: '23 АПР', day: 'ЧТ', time: '19:00', title: 'Вот это драма!', dir: 'Кристоффер Боргли', year: '2026', country: 'США', age: '18+', tag: 'кино', hot: true },
+  { date: '24 АПР', day: 'ПТ', time: '19:00', title: 'Одержимость', dir: 'Дэмьен Шазелл', year: '2013', country: 'США', age: '18+', tag: 'кино' },
+  { date: '25 АПР', day: 'СБ', time: '16:00', title: 'Великая красота', dir: 'Паоло Соррентино', year: '2013', country: 'Италия', age: '18+', tag: 'кино · ретроспектива', hot: true },
+  { date: '25 АПР', day: 'СБ', time: '19:30', title: 'Грация', dir: 'Паоло Соррентино', year: '2025', country: 'Италия', age: '18+', tag: 'кино · премьера' },
+  { date: '26 АПР', day: 'ВС', time: '13:00', title: 'Партенопа', dir: 'Паоло Соррентино', year: '2024', country: 'Италия · Франция', age: '18+', tag: 'кино · ретроспектива' },
+  { date: '27 АПР', day: 'ПН', time: '19:00', title: 'Посторонний', dir: 'Франсуа Озон', year: '2025', country: 'Франция', age: '18+', tag: 'кино' },
+  { date: '29 АПР', day: 'СР', time: '19:00', title: 'Частная жизнь', dir: 'Ребекка Злотовски', year: '2025', country: 'Франция', age: '18+', tag: 'кино' },
+  { date: '30 АПР', day: 'ЧТ', time: '19:00', title: 'Семь психопатов', dir: 'Мартин Макдона', year: '2012', country: 'Великобритания · США', age: '18+', tag: 'кино' },
+];
+---
+<section class="afisha" id="afisha">
+  <div class="container-x">
+    <div class="afisha__head reveal">
+      <div class="afisha__head-top">
+        <div>
+          <div class="sec-tag">Афиша</div>
+          <h2 class="display-h">
+            Что смотрим<br/>
+            <em>на&nbsp;этой неделе</em>
+          </h2>
+        </div>
+        <div class="afisha__legend">
+          <div class="afisha__legend-item">
+            <span class="afisha__dot"></span>
+            <span>В&nbsp;оригинале с&nbsp;русскими субтитрами</span>
+          </div>
+          <div class="afisha__legend-item">
+            <span>Зал на&nbsp;90&nbsp;мест · Москино</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="afisha__list">
+      {events.map((e, i) => (
+        <article class:list={['evt', 'reveal', e.hot && 'evt--hot']} style={`transition-delay: ${i * 0.04}s`}>
+          <div class="evt__date">
+            <div class="evt__d">{e.date}</div>
+            <div class="evt__wd">{e.day}</div>
+          </div>
+          <div class="evt__time">{e.time}</div>
+          <div class="evt__main">
+            <div class="evt__tag">{e.tag}</div>
+            <h3 class="evt__title">{e.title}</h3>
+            <div class="evt__meta">
+              <span>{e.dir}</span>
+              <span class="evt__sep">·</span>
+              <span>{e.year}</span>
+              <span class="evt__sep">·</span>
+              <span>{e.country}</span>
+            </div>
+          </div>
+          <div class="evt__age">{e.age}</div>
+          <a href="https://t.me/chtivo_dom_bot" target="_blank" rel="noopener" class="evt__cta">
+            Билет
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <div class="afisha__foot reveal">
+      <span class="afisha__more">Ещё 38 событий в&nbsp;мае</span>
+      <a href="https://dom.chtv.ru/events" target="_blank" rel="noopener" class="afisha__all-link">
+        Все события
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .afisha {
+    padding: 160px 0;
+    background: var(--color-bg-2);
+    border-top: 1.5px solid var(--color-text);
+    border-bottom: 1.5px solid var(--color-text);
+  }
+  .afisha__head { margin-bottom: 56px; }
+  .afisha__head-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .afisha__legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .afisha__legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .afisha__dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--color-brand);
+  }
+
+  .afisha__list {
+    display: flex;
+    flex-direction: column;
+  }
+  .evt {
+    display: grid;
+    grid-template-columns: 100px 80px 1fr auto auto;
+    gap: 32px;
+    align-items: center;
+    padding: 26px 0;
+    border-top: 1px solid var(--color-border);
+    transition: background 0.25s;
+  }
+  .evt:last-child { border-bottom: 1px solid var(--color-border); }
+  .evt:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(222,57,34,0.04) 60%, rgba(222,57,34,0.08) 100%);
+  }
+  .evt--hot .evt__d {
+    color: var(--color-brand);
+  }
+
+  .evt__date {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .evt__d {
+    font-family: var(--font-display);
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+  }
+  .evt__wd {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--color-muted);
+  }
+  .evt__time {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    letter-spacing: 1px;
+  }
+
+  .evt__main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .evt__tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-brand);
+    margin-bottom: 2px;
+  }
+  .evt__title {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    margin: 0;
+    color: var(--color-text);
+    text-transform: uppercase;
+  }
+  .evt__meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--color-muted);
+  }
+  .evt__sep { color: var(--color-brand); }
+
+  .evt__age {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 4px 8px;
+    border: 1px solid var(--color-border-2);
+    color: var(--color-text);
+  }
+
+  .evt__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--color-text);
+    color: var(--color-bg);
+    text-decoration: none;
+    transition: background 0.25s, gap 0.25s;
+  }
+  .evt__cta:hover {
+    background: var(--color-brand);
+    gap: 12px;
+  }
+
+  .afisha__foot {
+    margin-top: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .afisha__more {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .afisha__all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--color-text);
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid var(--color-text);
+    padding-bottom: 4px;
+    transition: color 0.25s, border-color 0.25s;
+  }
+  .afisha__all-link:hover { color: var(--color-brand); border-color: var(--color-brand); }
+
+  @media (max-width: 900px) {
+    .afisha { padding: 80px 0; }
+    .evt {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        'date  main  age'
+        'time  main  age'
+        'cta   cta   cta';
+      gap: 10px 20px;
+    }
+    .evt__date { grid-area: date; }
+    .evt__time { grid-area: time; font-size: 13px; }
+    .evt__main { grid-area: main; }
+    .evt__age { grid-area: age; align-self: start; }
+    .evt__cta { grid-area: cta; justify-self: start; margin-top: 8px; }
+  }
+</style>

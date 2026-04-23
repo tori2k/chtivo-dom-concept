@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'ЧТИВО ДОМ — культурное пространство в центре Москвы',
+  description = 'Встречаемся, общаемся, читаем, смотрим кино, слушаем живые выступления, едим, пьем и рассказываем истории. Зубовский бульвар, 2.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="theme-color" content="#f2ede1" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:locale" content="ru_RU" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <slot />
+
+  <script>
+    import Lenis from 'lenis';
+    const lenis = new Lenis({ duration: 1.2, easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+    function raf(time: number) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (target) { e.preventDefault(); lenis.scrollTo(target as HTMLElement, { offset: -40 }); }
+      });
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-up').forEach((el) => io.observe(el));
+
+    document.querySelectorAll<HTMLElement>('.magnet').forEach((el) => {
+      const strength = 0.35;
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        el.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = 'translate(0, 0)'; });
+    });
+
+    // Parallax
+    const parallaxEls = document.querySelectorAll<HTMLElement>('[data-parallax]');
+    if (parallaxEls.length) {
+      const onScroll = () => {
+        parallaxEls.forEach((el) => {
+          const speed = parseFloat(el.dataset.parallax || '0.1');
+          const rect = el.getBoundingClientRect();
+          const centerOffset = rect.top + rect.height / 2 - window.innerHeight / 2;
+          el.style.transform = `translateY(${-centerOffset * speed}px)`;
+        });
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  </script>
+</body>
+</html>

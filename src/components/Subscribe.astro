@@ -39,14 +39,28 @@ const iconPaths: Record<string, string> = {
 
       <!-- Форма-«типографская строка» -->
       <form class="sub__form reveal" data-stagger novalidate>
+        <!-- Переключатель Email / Telegram -->
+        <div class="sub__mode" role="tablist" aria-label="Способ подписки">
+          <button type="button" class="sub__mode-btn is-active" data-mode="email" role="tab" aria-selected="true">
+            <span class="sub__mode-n">01</span>
+            E-mail
+          </button>
+          <button type="button" class="sub__mode-btn" data-mode="telegram" role="tab" aria-selected="false">
+            <span class="sub__mode-n">02</span>
+            Telegram
+          </button>
+        </div>
+
         <label class="sub__field" for="sub-email">
-          <span class="sub__field-label">Ваш e-mail</span>
+          <span class="sub__field-label" data-label-email>Ваш e-mail</span>
+          <span class="sub__field-label" data-label-telegram hidden>Ваш Telegram</span>
           <input
             id="sub-email"
             type="email"
             inputmode="email"
             autocomplete="email"
             placeholder="ivan@example.ru"
+            data-input
             required
           />
           <span class="sub__field-cursor" aria-hidden="true"></span>
@@ -55,14 +69,9 @@ const iconPaths: Record<string, string> = {
         <button type="submit" class="sub__submit">
           <span class="sub__submit-text">Подписаться</span>
           <span class="sub__submit-stamp" aria-hidden="true">
-            <span class="sub__stamp-inner">
-              <span class="sub__stamp-ring">
-                <span>ЧТИВО · ЧТИВО · ЧТИВО · ЧТИВО · </span>
-              </span>
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" aria-hidden="true">
-                <path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+              <path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </span>
         </button>
 
@@ -271,6 +280,45 @@ const iconPaths: Record<string, string> = {
     max-width: 560px;
     margin-bottom: 32px;
     align-items: stretch;
+  }
+
+  /* Переключатель Email / Telegram */
+  .sub__mode {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    gap: 0;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    padding: 4px;
+    width: max-content;
+    margin-bottom: 4px;
+  }
+  .sub__mode-btn {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 9px 18px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    transition: background 0.2s, color 0.2s;
+  }
+  .sub__mode-btn:hover { color: var(--color-text); }
+  .sub__mode-btn.is-active {
+    background: var(--color-text);
+    color: var(--color-bg);
+  }
+  .sub__mode-btn.is-active .sub__mode-n { color: var(--color-bg); opacity: 0.55; }
+  .sub__mode-n {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--color-muted-2);
   }
 
   .sub__field {
@@ -718,15 +766,66 @@ const iconPaths: Record<string, string> = {
     }
   }
 
-  // Имитация отправки формы (для демо — никуда не отправляем).
+  // Переключатель Email / Telegram + имитация отправки.
   const form = document.querySelector<HTMLFormElement>('.sub__form');
   const submit = form?.querySelector<HTMLButtonElement>('.sub__submit');
   const stamp = submit?.querySelector<HTMLElement>('.sub__submit-stamp');
+  const input = form?.querySelector<HTMLInputElement>('[data-input]');
+  const labelEmail = form?.querySelector<HTMLElement>('[data-label-email]');
+  const labelTg = form?.querySelector<HTMLElement>('[data-label-telegram]');
+  const modeBtns = form?.querySelectorAll<HTMLButtonElement>('.sub__mode-btn');
+
+  type Mode = 'email' | 'telegram';
+  let currentMode: Mode = 'email';
+
+  function applyMode(mode: Mode) {
+    if (!input || !labelEmail || !labelTg || !modeBtns) return;
+    currentMode = mode;
+
+    modeBtns.forEach((b) => {
+      const active = b.dataset.mode === mode;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-selected', String(active));
+    });
+
+    if (mode === 'email') {
+      input.type = 'email';
+      input.inputMode = 'email';
+      input.autocomplete = 'email';
+      input.placeholder = 'ivan@example.ru';
+      input.pattern = '';
+      labelEmail.hidden = false;
+      labelTg.hidden = true;
+    } else {
+      input.type = 'text';
+      input.inputMode = 'text';
+      input.autocomplete = 'username';
+      input.placeholder = '@username';
+      input.pattern = '@?[A-Za-z0-9_]{3,}';
+      labelEmail.hidden = true;
+      labelTg.hidden = false;
+    }
+    input.value = '';
+    input.focus();
+  }
+
+  modeBtns?.forEach((b) => {
+    b.addEventListener('click', () => applyMode(b.dataset.mode as Mode));
+  });
 
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const input = form.querySelector<HTMLInputElement>('#sub-email');
     if (!input?.value || !submit) return;
+
+    // Простая валидация по режиму
+    if (currentMode === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+      input.focus();
+      return;
+    }
+    if (currentMode === 'telegram' && !/^@?[A-Za-z0-9_]{3,}$/.test(input.value.trim())) {
+      input.focus();
+      return;
+    }
 
     submit.disabled = true;
     submit.querySelector('.sub__submit-text')!.textContent = 'Готово';
@@ -737,6 +836,7 @@ const iconPaths: Record<string, string> = {
       submit.querySelector('.sub__submit-text')!.textContent = 'Подписаться';
       if (stamp) stamp.style.transform = '';
       form.reset();
+      applyMode(currentMode);
     }, 2400);
   });
 </script>
